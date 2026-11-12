@@ -1,6 +1,6 @@
-# [Project Title]
+# The Impact of the Automated Ball-Strike Challenge System on Major League Baseball
 
-ISA 401 Final Project, Fall 2026, Team [number], Section [A or B]
+ISA 401 Final Project, Fall 2026, Team 1, Section B
 
 <!--
 How to use this template (delete this comment block once your team is set up):
@@ -29,7 +29,7 @@ Never commit API keys. Keep them in a .Renviron file in this folder (already in 
 
 | Member | What I built | Portfolio project entry |
 |---|---|---|
-| [First Last] | [for example: the API pulls and the merge] | [https://USERNAME.github.io/portfolio/#...] |
+| [Joseph Sher] | [I worked on pulling API data, web scraping, and merging the data for the offensive player performance section of the project] | [https://USERNAME.github.io/portfolio/#...] |
 | [First Last] | [ ] | [ ] |
 | [First Last] | [ ] | [ ] |
 
@@ -39,9 +39,10 @@ and of their `business_intelligence` README with skills they used in this projec
 
 ## The Question
 
-[The research question or business problem, in one or two sentences.]
+To what extent has the Automated Ball-Strike Challenge System changed the accuracy of umpire calls, offensive player performance, and game outcomes in Major League Baseball (MLB)?
 
-[Why it matters, and what makes it interesting or new compared with analyzing an existing dataset.]
+This project examines how MLB's Automated Ball-Strike (ABS) Challenge System may influence the game by allowing players to challenge ball and strike calls made by home plate umpires. By combining ABS challenge information, MLB player statistics, and additional baseball data collected from multiple sources, we aim to evaluate changes in umpire call accuracy, offensive performance, and game outcomes. This project is interesting because it examines how the introduction of automated technology may affect both individual player performance and the overall game of baseball.
+
 
 ## Data Sources
 
