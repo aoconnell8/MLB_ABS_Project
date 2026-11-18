@@ -10,24 +10,23 @@ output:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
+
+
 ## Source 1: ABS Challenge Data (Reading CSV)
 
 What one row is: One row represents a player and their individual success/failure rate with ABS challenges and the stat improvements/declines from won or lost challenges
 
 ## Source 2: MLB API Data (API)
 
-What one row is: A player and their stats from the 2026 MLB season
+What one row is: A player and their stats from the 2024-2026 MLB season
 
-## Source 3: Baseball Reference
+## Source 3: Baseball Reference (Web Scraping)
 
-What one row is: A player and their offensive performance stats from 2026
-
-## Save the raw data
-
-Write each source to `../data/raw/`.
+What one row is: A player and their offensive performance stats from 2024-2026.
 
 
-```{r}
+# Getting Baseball Reference Data
+```{r web scraping Baseball Reference}
 mlb_page = rvest::read_html(
   "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
 )
@@ -43,7 +42,7 @@ mlb_table = mlb_table |>
   dplyr::mutate(Player = gsub("[*#]", "", Player))
 ```
 
-```{r}
+```{r web scraping function Baseball Reference}
 get_mlb_stats = function(year) {
 
   mlb_page = rvest::read_html(
@@ -74,55 +73,8 @@ head(mlb_stats)
 ```
 
 
-```{r}
-mlb_clean = mlb_stats |>
-  dplyr::select(
-    player_name = Player,
-    team_name = Team,
-    games = G,
-    at_bats = AB,
-    hits = H,
-    home_runs = HR,
-    walks = BB,
-    strikeouts = SO,
-    avg = BA,
-    obp = OBP,
-    slg = SLG,
-    ops = OPS,
-    year = year
-  )
 
-head(mlb_clean)
-
-dplyr::glimpse(mlb_clean)
-```
-
-```{r api}
-api_data =
-  httr2::request("https://statsapi.mlb.com/api/v1/stats") |>
-  httr2::req_url_query(
-    stats = "season",
-    group = "hitting",
-    season = 2024,
-    sportIds = 1,
-    gameType = "R"
-  ) |>
-  httr2::req_perform() |>
-  httr2::resp_body_string() |>
-  jsonlite::fromJSON()
-```
-
-```{r api data }
-hitting_2024 = api_data$stats$splits[[1]]
-
-head(hitting_2024)
-
-names(hitting_2024)
-
-dplyr::glimpse(hitting_2024)
-```
-
-```{r season data}
+```{r season data api function and raw data}
 get_hitting = function(season) {
 
   api_data =
@@ -144,9 +96,7 @@ get_hitting = function(season) {
 
   return(hitting_data)
 }
-```
 
-```{r}
 hitting_raw = purrr::map_df(
   seasons,
   get_hitting
@@ -157,150 +107,59 @@ head(hitting_raw)
 names(hitting_raw)
 
 dplyr::glimpse(hitting_raw)
-
 ```
 
+```{r getting player heights}
+player_ids = unique(as.character(hitting_raw$player$id))
 
+player_ids = player_ids[!is.na(player_ids)]
 
-```{r}
-hitting_clean = hitting_raw |>
-  dplyr::mutate(
-    player_id = player$id,
-    player_name = player$fullName,
-    plate_appearances = stat$plateAppearances,
-    avg = stat$avg,
-    obp = stat$obp,
-    slg = stat$slg,
-    ops = stat$ops,
-    home_runs = stat$homeRuns,
-    walks = stat$baseOnBalls,
-    strikeouts = stat$strikeOuts
-  ) |>
-  dplyr::select(
-    player_id,
-    player_name,
-    season,
-    plate_appearances,
-    avg,
-    obp,
-    slg,
-    ops,
-    home_runs,
-    walks,
-    strikeouts, 
-    year
-  )
-  
+length(player_ids)
+
+people_url = "https://statsapi.mlb.com/api/v1/people"
+
+people_parts = list()
+
+for (i in seq(1, length(player_ids), by = 50)) {
+
+  ids_chunk = player_ids[i:min(i + 49, length(player_ids))]
+
+  people_raw = httr2::request(people_url) |>
+    httr2::req_url_query(
+      personIds = paste(ids_chunk, collapse = ",")
+    ) |>
+    httr2::req_perform() |>
+    httr2::resp_body_string() |>
+    jsonlite::fromJSON(flatten = TRUE)
+
+  people_parts[[length(people_parts) + 1]] = people_raw$people
+}
+
+people_data = dplyr::bind_rows(people_parts)
+
+head(people_data)
+names(people_data)
 ```
 
-```{r}
-abs_raw = readr::read_csv("../data/abs-challenges-2026-batter.csv")
-
-head(abs_raw)
-
-names(abs_raw)
-
-dplyr::glimpse(abs_raw)
-```
-
-```{r}
-abs_clean = abs_raw |>
-  dplyr::select(
-    entity_name,
-    runs_above_average,
-    runs_gained,
-    runs_cost,
-    n_challenges,
-    n_overturns,
-    n_confirms,
-    rate_overturns,
-    n_strikeouts_flip,
-    n_walks_flip
-  ) |>
-  dplyr::rename(
-    player = entity_name,
-    runs_above_avg = runs_above_average,
-    challenges = n_challenges,
-    challenge_wins = n_overturns,
-    challenge_losses = n_confirms,
-    win_percentage = rate_overturns,
-    strikeouts_removed = n_strikeouts_flip,
-    walks_gained = n_walks_flip
-  )
-```
-
-```{r}
-abs_clean = abs_clean |>
-  dplyr::mutate(
-    player_key = tolower(trimws(player))
-  )
-
-head(abs_clean)
-
-names(abs_clean)
-
-summary(abs_clean)
-```
-
-```{r}
-names(hitting_clean)
-names(mlb_clean)
-names(abs_clean)
-```
-
-
-```{r}
-mlb_clean = mlb_clean |>
-  dplyr::mutate(
-   player_key = tolower(trimws(player_name))
-  )
-```
-
-```{r}
-hitting_clean = hitting_clean |>
-  dplyr::mutate(
-    player_key = tolower(trimws(player_name))
-  )
-```
-
-
-```{r}
-mlb_combined = hitting_clean |>
-  dplyr::left_join(
-    mlb_clean,
-    by = c("player_key", "year")
-  )
-```
-
-```{r}
-all_years_stats = mlb_combined |>
-  dplyr::filter(year %in% c(2024, 2025, 2026))
-```
-
-```{r}
-abs_clean = abs_clean |>
-  dplyr::mutate(year = 2026)
-```
-
-
-
-```{r}
-final_data_all_years = all_years_stats |>
-  dplyr::left_join(
-    abs_clean,
-    by = c("player_key", "year")
-  )
-```
-
-```{r}
+```{r writing raw data to file and rds}
 readr::write_csv(
-  final_data_all_years,
-  "../data/abs_final_data_all_years.csv"
+  mlb_stats,
+  "../data/raw/baseball_reference_raw.csv"
 )
-```
 
-```{r}
-final_data_all_years |>
-  dplyr::count(year)
+saveRDS(
+  hitting_raw,
+  "../data/raw/mlb_api_hitting_raw.rds"
+)
+
+readr::write_csv(
+  abs_raw,
+  "../data/raw/abs_challenges_raw.csv"
+)
+
+saveRDS(
+  people_data,
+  "../data/raw/mlb_people_raw.rds"
+)
 ```
 

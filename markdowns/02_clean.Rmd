@@ -14,10 +14,624 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 Read from `../data/raw/`.
 
+```{r reading in raw data}
+
+library(dplyr)
+library(readr)
+library(jsonlite)
+
+mlb_stats = readr::read_csv(
+  "../data/raw/baseball_reference_raw.csv"
+)
+
+hitting_raw = readRDS(
+  "../data/raw/mlb_api_hitting_raw.rds"
+)
+
+abs_raw = readr::read_csv(
+  "../data/raw/abs_challenges_raw.csv"
+)
+
+people_data = readRDS(
+  "../data/raw/mlb_people_raw.rds"
+)
+```
 ## Clean each source
 
-Types, formats, missing values, duplicates.
+## Cleaning and Transformation
+
+The raw datasets contain different column names, formats, and levels of detail. The data was cleaned by standardizing column names, selecting relevant variables, creating consistent player identifiers, and preparing the datasets for merging.
+
+The player name matching key was converted to lowercase and stripped of leading and trailing spaces to improve consistency across sources.
 
 ## Save the cleaned data
 
 Write to `../data/processed/`.
+
+```{r cleaning the MLB stats data}
+mlb_clean = mlb_stats |>
+  dplyr::select(
+    player_name = Player,
+    team_name = Team,
+    games = G,
+    at_bats = AB,
+    hits = H,
+    home_runs = HR,
+    walks = BB,
+    strikeouts = SO,
+    avg = BA,
+    obp = OBP,
+    slg = SLG,
+    ops = OPS,
+    year = year
+  )
+
+head(mlb_clean)
+
+dplyr::glimpse(mlb_clean)
+```
+
+```{r clean api data}
+hitting_clean = hitting_raw |>
+  dplyr::mutate(
+    player_id = as.character(player$id),
+    player_name = player$fullName,
+    plate_appearances = stat$plateAppearances,
+    avg = stat$avg,
+    obp = stat$obp,
+    slg = stat$slg,
+    ops = stat$ops,
+    home_runs = stat$homeRuns,
+    walks = stat$baseOnBalls,
+    strikeouts = stat$strikeOuts
+  ) |>
+  dplyr::select(
+    player_id,
+    player_name,
+    plate_appearances,
+    avg,
+    obp,
+    slg,
+    ops,
+    home_runs,
+    walks,
+    strikeouts,
+    year
+  ) |>
+  dplyr::mutate(
+    player_key = tolower(trimws(player_name))
+  )
+
+head(hitting_clean)
+dplyr::glimpse(hitting_clean)
+```
+
+```{r abs clean}
+abs_clean = abs_raw |>
+  dplyr::select(
+    entity_name,
+    runs_above_average,
+    runs_gained,
+    runs_cost,
+    n_challenges,
+    n_overturns,
+    n_confirms,
+    rate_overturns,
+    n_strikeouts_flip,
+    n_walks_flip
+  ) |>
+  dplyr::rename(
+    player = entity_name,
+    runs_above_avg = runs_above_average,
+    challenges = n_challenges,
+    challenge_wins = n_overturns,
+    challenge_losses = n_confirms,
+    win_percentage = rate_overturns,
+    strikeouts_removed = n_strikeouts_flip,
+    walks_gained = n_walks_flip
+  ) |>
+  dplyr::mutate(
+    player_key = tolower(trimws(player))
+  )
+
+head(abs_clean)
+names(abs_clean)
+summary(abs_clean)
+```
+
+```{r clean player height}
+player_height = people_data |>
+  dplyr::select(
+    player_id = id,
+    player_name = fullName,
+    height
+  ) |>
+  dplyr::mutate(
+    player_id = as.character(player_id),
+    height_clean = gsub("[^0-9 ]", "", height)
+  )
+
+player_height$height_inches = sapply(
+  strsplit(trimws(player_height$height_clean), " +"),
+  function(x) as.numeric(x[1]) * 12 + as.numeric(x[2])
+)
+
+player_height = player_height |>
+  dplyr::select(
+    player_id,
+    player_name,
+    height,
+    height_inches
+  )
+
+head(player_height)
+```
+
+```{r write cleaned data to processed}
+readr::write_csv(
+  mlb_clean,
+  "../data/processed/baseball_reference_clean.csv"
+)
+
+readr::write_csv(
+  hitting_clean,
+  "../data/processed/mlb_api_hitting_clean.csv"
+)
+
+readr::write_csv(
+  abs_clean,
+  "../data/processed/abs_challenges_clean.csv"
+)
+
+readr::write_csv(
+  player_height,
+  "../data/processed/player_height_clean.csv"
+)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+```{r}
+abs_clean = abs_clean |>
+  dplyr::mutate(
+    player_key = tolower(trimws(player))
+  )
+
+head(abs_clean)
+
+names(abs_clean)
+
+summary(abs_clean)
+```
+
+```{r}
+names(hitting_clean)
+names(mlb_clean)
+names(abs_clean)
+```
+
+
+```{r}
+mlb_clean = mlb_clean |>
+  dplyr::mutate(
+   player_key = tolower(trimws(player_name))
+  )
+```
+
+```{r}
+hitting_clean = hitting_clean |>
+  dplyr::mutate(
+    player_key = tolower(trimws(player_name))
+  )
+```
+
+
+```{r}
+mlb_combined = hitting_clean |>
+  dplyr::left_join(
+    mlb_clean,
+    by = c("player_key", "year")
+  )
+```
+
+```{r}
+all_years_stats = mlb_combined |>
+  dplyr::filter(year %in% c(2024, 2025, 2026))
+```
+
+```{r}
+abs_clean = abs_clean |>
+  dplyr::mutate(year = 2026)
+```
+
+
+
+```{r}
+final_data_all_years = all_years_stats |>
+  dplyr::left_join(
+    abs_clean,
+    by = c("player_key", "year")
+  )
+```
+
+```{r}
+readr::write_csv(
+  final_data_all_years,
+  "../data/abs_final_data_all_years.csv"
+)
+```
+
+```{r}
+final_data_all_years |>
+  dplyr::count(year)
+```
+
+```{r}
+clean_step1 = final_data_all_years |>
+  dplyr::group_by(player_key, year) |>
+  dplyr::mutate(
+    has_2tm = any(team_name == "2TM")
+  ) |>
+  dplyr::filter(
+    !has_2tm | team_name == "2TM"
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::select(-has_2tm)
+```
+
+```{r}
+clean_step1 |>
+  dplyr::count(player_key, year) |>
+  dplyr::filter(n > 1)
+
+dim(clean_step1)
+
+clean_step1 |>
+  dplyr::count(year)
+```
+
+```{r}
+class(clean_step1$ops.x)
+class(clean_step1$ops.y)
+
+head(clean_step1$ops.x)
+head(clean_step1$ops.y)
+
+clean_step1$ops.x <- as.numeric(clean_step1$ops.x)
+clean_step1$avg.x <-as.numeric(clean_step1$avg.x)
+clean_step1$obp.x <- as.numeric(clean_step1$obp.x)
+clean_step1$slg.x <- as.numeric(clean_step1$slg.x)
+```
+
+```{r}
+ops_check = clean_step1 |>
+  dplyr::mutate(
+    avg_difference = abs(avg.x - avg.y),
+    obp_difference = abs(obp.x - obp.y),
+    slg_difference = abs(slg.x - slg.y),
+    ops_difference = abs(ops.x - ops.y)
+  ) |>
+  dplyr::summarise(
+    max_avg_difference = max(avg_difference, na.rm = TRUE),
+    max_obp_difference = max(obp_difference, na.rm = TRUE),
+    max_slg_difference = max(slg_difference, na.rm = TRUE),
+    max_ops_difference = max(ops_difference, na.rm = TRUE)
+  )
+
+ops_check
+```
+
+```{r}
+clean_data = clean_step1 |>
+  dplyr::select(
+    player_id,
+    player_name = player_name.x,
+    player_key,
+    year,
+    team = team_name,
+    plate_appearances,
+    games,
+    at_bats,
+    hits,
+    avg = avg.x,
+    obp = obp.x,
+    slg = slg.x,
+    ops = ops.x,
+    home_runs = home_runs.x,
+    walks = walks.x,
+    strikeouts = strikeouts.x,
+    runs_above_avg,
+    runs_gained,
+    runs_cost,
+    challenges,
+    challenge_wins,
+    challenge_losses,
+    win_percentage,
+    strikeouts_removed,
+    walks_gained
+  ) |>
+  dplyr::mutate(
+    abs_data_matched = !is.na(challenges),
+    period = ifelse(year < 2026, "Pre-ABS", "ABS-era")
+  )
+
+dim(clean_data)
+names(clean_data)
+head(clean_data)
+```
+
+```{r}
+# Check for duplicate column names
+anyDuplicated(names(clean_data))
+
+# Check for duplicate player-season records
+clean_data |>
+  dplyr::count(player_key, year) |>
+  dplyr::filter(n > 1)
+
+# Check for missing values
+colSums(is.na(clean_data))
+
+# Check for negative batting or challenge counts
+clean_data |>
+  dplyr::filter(
+    plate_appearances < 0 |
+    games < 0 |
+    at_bats < 0 |
+    hits < 0 |
+    home_runs < 0 |
+    walks < 0 |
+    strikeouts < 0 |
+    challenges < 0
+  )
+
+# Check challenge wins and losses
+clean_data |>
+  dplyr::filter(!is.na(challenges)) |>
+  dplyr::filter(challenge_wins + challenge_losses != challenges)
+
+# Check win percentages
+clean_data |>
+  dplyr::filter(!is.na(win_percentage)) |>
+  dplyr::filter(win_percentage < 0 | win_percentage > 1)
+
+# Check season totals
+clean_data |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    players = dplyr::n(),
+    average_PA = mean(plate_appearances),
+    average_OPS = mean(ops)
+  )
+```
+
+```{r}
+dir.create("data", showWarnings = FALSE)
+
+readr::write_csv(
+  clean_data,
+  "../data/abs_clean_validated.csv"
+)
+```
+
+```{r}
+library(dplyr)
+library(readr)
+library(jsonlite)
+library(httr2)
+
+abs_data = read_csv("../data/abs_clean_validated.csv")
+
+names(abs_data)
+dim(abs_data)
+```
+
+```{r}
+player_ids = unique(abs_data$player_id)
+
+player_ids = player_ids[!is.na(player_ids)]
+
+length(player_ids)
+```
+
+```{r}
+people_url = "https://statsapi.mlb.com/api/v1/people"
+
+people_parts = list()
+
+for (i in seq(1, length(player_ids), by = 50)) {
+
+  ids_chunk = player_ids[i:min(i + 49, length(player_ids))]
+
+  people_raw = request(people_url) |>
+    req_url_query(
+      personIds = paste(ids_chunk, collapse = ",")
+    ) |>
+    req_perform() |>
+    resp_body_string() |>
+    fromJSON(flatten = TRUE)
+
+  people_parts[[length(people_parts) + 1]] = people_raw$people
+}
+
+people_data = bind_rows(people_parts)
+
+names(people_data)
+```
+
+```{r}
+player_height = people_data |>
+  dplyr::select(
+    player_id = id,
+    player_name = fullName,
+    height
+  ) |>
+  dplyr::mutate(
+    player_id = as.character(player_id),
+    height_clean = gsub("[^0-9 ]", "", height)
+  )
+
+player_height$height_inches = sapply(
+  strsplit(trimws(player_height$height_clean), " +"),
+  function(x) as.numeric(x[1]) * 12 + as.numeric(x[2])
+)
+
+player_height = player_height |>
+  dplyr::select(
+    player_id,
+    player_name,
+    height,
+    height_inches
+  )
+
+head(player_height)
+```
+
+```{r}
+dim(player_height)
+
+sum(is.na(player_height$player_id))
+sum(is.na(player_height$height))
+sum(is.na(player_height$height_inches))
+
+player_height |>
+  count(player_id) |>
+  filter(n > 1)
+
+player_height |>
+  filter(height_inches < 60 | height_inches > 90)
+
+player_height |>
+  arrange(height_inches)
+```
+
+```{r}
+abs_data = abs_data |>
+  dplyr::mutate(
+    player_id = as.character(player_id)
+  )
+player_height = player_height |>
+  dplyr::select(player_id, height, height_inches)
+
+abs_data = abs_data |>
+  dplyr::left_join(player_height, by = "player_id")
+```
+
+```{r}
+height_groups = abs_data |>
+  dplyr::select(player_id, height_inches.x) |>
+  dplyr::distinct() |>
+  dplyr::filter(!is.na(height_inches.x)) |>
+  dplyr::mutate(
+    height_group = ntile(height_inches.x, 3)
+  ) |>
+  dplyr::mutate(
+    height_group = case_when(
+      height_group == 1 ~ "Shortest Third",
+      height_group == 2 ~ "Middle Third",
+      height_group == 3 ~ "Tallest Third"
+    )
+  ) |>
+  select(player_id, height_group)
+```
+
+```{r}
+abs_data = abs_data |>
+  left_join(height_groups, by = "player_id")
+```
+
+```{r}
+dim(abs_data)
+
+abs_data |>
+  dplyr::count(year)
+
+abs_data |>
+  dplyr::summarise(
+    total_records = dplyr::n(),
+    missing_heights = sum(is.na(height_inches.x)),
+    missing_height_groups = sum(is.na(height_group))
+  )
+
+abs_data |>
+  dplyr::count(player_id, year) |>
+  dplyr::filter(n > 1)
+
+abs_data |>
+  dplyr::count(height_group, year)
+```
+
+```{r}
+readr::write_csv(
+  abs_data,
+  "../data/abs_clean_validated_with_height.csv"
+)
+```
+
+```{r abs read}
+abs_raw = readr::read_csv("../data/abs-challenges-2026-batter.csv")
+
+head(abs_raw)
+
+names(abs_raw)
+
+dplyr::glimpse(abs_raw)
+```
+
+```{r clean abs data}
+abs_clean = abs_raw |>
+  dplyr::select(
+    entity_name,
+    runs_above_average,
+    runs_gained,
+    runs_cost,
+    n_challenges,
+    n_overturns,
+    n_confirms,
+    rate_overturns,
+    n_strikeouts_flip,
+    n_walks_flip
+  ) |>
+  dplyr::rename(
+    player = entity_name,
+    runs_above_avg = runs_above_average,
+    challenges = n_challenges,
+    challenge_wins = n_overturns,
+    challenge_losses = n_confirms,
+    win_percentage = rate_overturns,
+    strikeouts_removed = n_strikeouts_flip,
+    walks_gained = n_walks_flip
+  )
+```
+
+```{r}
+abs_clean = abs_clean |>
+  dplyr::mutate(
+    player_key = tolower(trimws(player))
+  )
+
+head(abs_clean)
+
+names(abs_clean)
+
+summary(abs_clean)
+```
+
+```{r}
+names(hitting_clean)
+names(mlb_clean)
+names(abs_clean)
+```
+
+

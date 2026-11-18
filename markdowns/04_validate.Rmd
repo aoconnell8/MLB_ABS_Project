@@ -10,12 +10,128 @@ output:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-## Validation rules
+## Validation rules:
+1) Check for Duplicate Records
+2) Check for empty columns - some empty columns are expected, as this will be for all years without ABS
+3) Check for negative statistics
+4) Check challenge wins and losses
+5) Check win percentages to ensure it is between 0 and 1
+6) Check the height information
+7) Summarize and perform final check on dataset
 
-## Validation table
 
-The rows that break each rule.
+## Data Validation
+
+Several checks were performed to evaluate the quality and consistency of the merged dataset. These checks examined duplicate player-season observations, missing values, invalid negative statistics, challenge totals, win percentages, and player heights.
+
+The validation process helps identify potential data quality issues before the dataset is used for analysis and visualization.
 
 ## Descriptive summaries
 
-Summary statistics, data quality checks, and exploratory charts.
+```{r}
+clean_data = readr::read_csv(
+  "../data/processed/merged_data_before_validation.csv"
+)
+```
+
+```{r check for duplicate records}
+# Check for duplicate column names
+anyDuplicated(names(clean_data))
+
+# Check for duplicate player-season records
+clean_data |>
+  dplyr::count(player_key, year) |>
+  dplyr::filter(n > 1)
+```
+
+```{r check missing values}
+colSums(is.na(clean_data))
+```
+
+```{r check negative statistics}
+clean_data |>
+  dplyr::filter(
+    plate_appearances < 0 |
+    games < 0 |
+    at_bats < 0 |
+    hits < 0 |
+    home_runs < 0 |
+    walks < 0 |
+    strikeouts < 0 |
+    challenges < 0
+  )
+```
+  
+```{r check challenges}
+clean_data |>
+  dplyr::filter(!is.na(challenges)) |>
+  dplyr::filter(
+    challenge_wins + challenge_losses != challenges
+  )
+```
+
+```{r check win percentage}
+clean_data |>
+  dplyr::filter(!is.na(win_percentage)) |>
+  dplyr::filter(
+    win_percentage < 0 |
+    win_percentage > 1
+  )
+```
+
+```{r check height}
+clean_data |>
+  dplyr::filter(
+    !is.na(height_inches) &
+    (height_inches < 60 | height_inches > 90)
+  )
+
+clean_data |>
+  dplyr::summarise(
+    total_records = dplyr::n(),
+    missing_heights = sum(is.na(height_inches)),
+    missing_height_groups = sum(is.na(height_group))
+  )
+```
+
+```{r final summary}
+# Number of player-season records by year
+clean_data |>
+  dplyr::count(year)
+
+# Average batting statistics by year
+clean_data |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    players = dplyr::n(),
+    average_PA = mean(plate_appearances, na.rm = TRUE),
+    average_OPS = mean(ops, na.rm = TRUE)
+  )
+
+# ABS challenge summary
+clean_data |>
+  dplyr::filter(!is.na(challenges)) |>
+  dplyr::summarise(
+    players_with_ABS_data = dplyr::n(),
+    total_challenges = sum(challenges, na.rm = TRUE),
+    total_wins = sum(challenge_wins, na.rm = TRUE),
+    total_losses = sum(challenge_losses, na.rm = TRUE)
+  )
+
+# Height group summary
+clean_data |>
+  dplyr::distinct(player_id, height_group) |>
+  dplyr::count(height_group)
+```
+
+# Write Final Dataset
+```{r final dataset}
+readr::write_csv(
+  clean_data,
+  "../data/processed/final_dataset.csv"
+)
+
+dim(clean_data)
+names(clean_data)
+```
+

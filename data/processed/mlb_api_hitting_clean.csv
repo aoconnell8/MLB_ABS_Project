@@ -1,0 +1,151 @@
+player_id,player_name,plate_appearances,avg,obp,slg,ops,home_runs,walks,strikeouts,year,player_key
+677951,Bobby Witt Jr.,709,0.332,0.389,0.588,0.977,32,57,106,2024,bobby witt jr.
+665489,Vladimir Guerrero Jr.,697,0.323,0.396,0.544,0.94,30,72,96,2024,vladimir guerrero jr.
+592450,Aaron Judge,704,0.322,0.458,0.701,1.159,58,133,171,2024,aaron judge
+650333,Luis Arraez,672,0.314,0.346,0.392,0.738,4,24,29,2024,luis arraez
+660271,Shohei Ohtani,731,0.31,0.39,0.646,1.036,54,81,162,2024,shohei ohtani
+670541,Yordan Alvarez,635,0.308,0.392,0.567,0.959,35,69,95,2024,yordan alvarez
+542303,Marcell Ozuna,688,0.302,0.378,0.546,0.924,39,74,170,2024,marcell ozuna
+673237,Yainer Diaz,619,0.299,0.325,0.441,0.766,16,24,107,2024,yainer diaz
+607208,Trea Turner,539,0.295,0.338,0.469,0.807,21,27,98,2024,trea turner
+514888,Jose Altuve,682,0.295,0.35,0.439,0.789,20,47,119,2024,jose altuve
+667670,Brent Rooker,614,0.293,0.365,0.562,0.927,39,59,177,2024,brent rooker
+701538,Jackson Merrill,593,0.292,0.326,0.5,0.826,24,29,101,2024,jackson merrill
+680757,Steven Kwan,540,0.292,0.368,0.425,0.793,14,53,51,2024,steven kwan
+606466,Ketel Marte,583,0.292,0.372,0.56,0.932,36,65,106,2024,ketel marte
+605141,Mookie Betts,516,0.289,0.372,0.491,0.863,19,61,57,2024,mookie betts
+665742,Juan Soto,713,0.288,0.419,0.569,0.988,41,129,119,2024,juan soto
+547180,Bryce Harper,631,0.285,0.373,0.525,0.898,30,76,138,2024,bryce harper
+680776,Jarren Duran,735,0.285,0.342,0.492,0.834,21,54,160,2024,jarren duran
+673548,Seiya Suzuki,585,0.283,0.366,0.482,0.848,21,63,160,2024,seiya suzuki
+518692,Freddie Freeman,638,0.282,0.378,0.476,0.854,22,78,100,2024,freddie freeman
+671277,Luis García Jr.,528,0.282,0.318,0.444,0.762,18,27,86,2024,luis garcía jr.
+683002,Gunnar Henderson,719,0.281,0.364,0.529,0.893,37,78,159,2024,gunnar henderson
+661388,William Contreras,679,0.281,0.365,0.466,0.831,23,78,139,2024,william contreras
+650490,Yandy Díaz,621,0.281,0.341,0.414,0.755,14,50,95,2024,yandy díaz
+595777,Jurickson Profar,668,0.28,0.38,0.459,0.839,24,76,101,2024,jurickson profar
+664761,Alec Bohm,606,0.28,0.332,0.448,0.78,15,40,86,2024,alec bohm
+608070,José Ramírez,682,0.279,0.335,0.537,0.872,39,54,82,2024,josé ramírez
+666971,Lourdes Gurriel Jr.,553,0.279,0.322,0.435,0.757,18,29,101,2024,lourdes gurriel jr.
+608369,Corey Seager,533,0.278,0.353,0.512,0.865,30,53,96,2024,corey seager
+680977,Brendan Donovan,652,0.278,0.342,0.417,0.759,14,47,81,2024,brendan donovan
+668804,Bryan Reynolds,692,0.275,0.344,0.447,0.791,24,57,156,2024,bryan reynolds
+592518,Manny Machado,643,0.275,0.325,0.472,0.797,29,45,124,2024,manny machado
+694192,Jackson Chourio,573,0.275,0.327,0.464,0.791,21,39,121,2024,jackson chourio
+596019,Francisco Lindor,689,0.273,0.344,0.5,0.844,33,56,127,2024,francisco lindor
+677594,Julio Rodríguez,613,0.273,0.325,0.409,0.734,20,38,156,2024,julio rodríguez
+663538,Nico Hoerner,641,0.273,0.335,0.373,0.708,7,44,66,2024,nico hoerner
+646240,Rafael Devers,601,0.272,0.354,0.516,0.87,28,67,147,2024,rafael devers
+606192,Teoscar Hernández,652,0.272,0.339,0.501,0.84,33,53,188,2024,teoscar hernández
+571448,Nolan Arenado,635,0.272,0.325,0.394,0.719,16,44,92,2024,nolan arenado
+521692,Salvador Perez,652,0.271,0.33,0.456,0.786,27,44,129,2024,salvador perez
+663624,Ryan Mountcastle,507,0.271,0.308,0.425,0.733,13,27,114,2024,ryan mountcastle
+671218,Heliot Ramos,518,0.269,0.322,0.469,0.791,22,37,135,2024,heliot ramos
+676475,Alec Burleson,595,0.269,0.314,0.42,0.734,21,35,76,2024,alec burleson
+678662,Ezequiel Tovar,695,0.269,0.295,0.469,0.764,26,23,200,2024,ezequiel tovar
+663898,Brendan Rodgers,539,0.267,0.314,0.407,0.721,13,31,132,2024,brendan rodgers
+691026,Masyn Winn,637,0.267,0.314,0.416,0.73,15,41,109,2024,masyn winn
+665161,Jeremy Peña,650,0.266,0.308,0.394,0.702,15,25,111,2024,jeremy peña
+641355,Cody Bellinger,569,0.266,0.325,0.426,0.751,18,45,89,2024,cody bellinger
+663993,Nathaniel Lowe,565,0.265,0.361,0.401,0.762,16,71,125,2024,nathaniel lowe
+686469,Vinnie Pasquantino,554,0.262,0.315,0.446,0.761,19,40,71,2024,vinnie pasquantino
+592450,Aaron Judge,679,0.331,0.457,0.688,1.145,53,124,160,2025,aaron judge
+666182,Bo Bichette,628,0.311,0.357,0.483,0.84,18,40,91,2025,bo bichette
+805779,Jacob Wilson,523,0.311,0.355,0.444,0.799,13,27,39,2025,jacob wilson
+543807,George Springer,586,0.309,0.399,0.56,0.959,32,69,111,2025,george springer
+665161,Jeremy Peña,543,0.304,0.363,0.477,0.84,17,35,93,2025,jeremy peña
+607208,Trea Turner,639,0.304,0.355,0.457,0.812,15,43,107,2025,trea turner
+650490,Yandy Díaz,651,0.3,0.366,0.482,0.848,25,57,92,2025,yandy díaz
+663538,Nico Hoerner,649,0.297,0.345,0.394,0.739,7,39,49,2025,nico hoerner
+677951,Bobby Witt Jr.,687,0.295,0.351,0.501,0.852,23,49,125,2025,bobby witt jr.
+518692,Freddie Freeman,627,0.295,0.367,0.502,0.869,24,60,128,2025,freddie freeman
+647304,Josh Naylor,604,0.295,0.353,0.462,0.815,20,48,83,2025,josh naylor
+665489,Vladimir Guerrero Jr.,680,0.292,0.381,0.467,0.848,23,81,94,2025,vladimir guerrero jr.
+650333,Luis Arraez,675,0.292,0.327,0.392,0.719,8,34,21,2025,luis arraez
+672695,Geraldo Perdomo,720,0.29,0.389,0.462,0.851,20,94,83,2025,geraldo perdomo
+676475,Alec Burleson,546,0.29,0.343,0.459,0.802,18,39,79,2025,alec burleson
+686217,Sal Frelick,594,0.288,0.351,0.405,0.756,12,47,80,2025,sal frelick
+668930,Brice Turang,659,0.288,0.359,0.435,0.794,18,66,150,2025,brice turang
+680977,Brendan Donovan,515,0.287,0.353,0.422,0.775,10,42,67,2025,brendan donovan
+664761,Alec Bohm,504,0.287,0.331,0.409,0.74,11,29,82,2025,alec bohm
+672580,Maikel Garcia,666,0.286,0.351,0.449,0.8,16,62,84,2025,maikel garcia
+669364,Xavier Edwards,619,0.283,0.343,0.353,0.696,3,49,88,2025,xavier edwards
+606466,Ketel Marte,556,0.283,0.376,0.517,0.893,28,64,83,2025,ketel marte
+608070,José Ramírez,673,0.283,0.36,0.503,0.863,30,66,74,2025,josé ramírez
+672386,Alejandro Kirk,506,0.282,0.348,0.421,0.769,15,48,59,2025,alejandro kirk
+660271,Shohei Ohtani,727,0.282,0.392,0.622,1.014,55,109,187,2025,shohei ohtani
+656811,Ryan O'Hearn,544,0.281,0.366,0.437,0.803,17,58,109,2025,ryan o'hearn
+696100,Hunter Goodman,579,0.278,0.323,0.52,0.843,31,33,152,2025,hunter goodman
+676391,Ernie Clement,588,0.277,0.313,0.398,0.711,9,27,61,2025,ernie clement
+669127,Shea Langeliers,523,0.277,0.325,0.536,0.861,31,36,103,2025,shea langeliers
+691016,Tyler Soderstrom,624,0.276,0.346,0.474,0.82,25,55,141,2025,tyler soderstrom
+621043,Carlos Correa,584,0.276,0.332,0.402,0.734,13,45,113,2025,carlos correa
+592518,Manny Machado,678,0.275,0.335,0.46,0.795,27,55,131,2025,manny machado
+502671,Paul Goldschmidt,534,0.274,0.328,0.403,0.731,10,36,100,2025,paul goldschmidt
+683002,Gunnar Henderson,651,0.274,0.349,0.438,0.787,17,62,137,2025,gunnar henderson
+624413,Pete Alonso,709,0.272,0.347,0.524,0.871,38,61,162,2025,pete alonso
+621566,Matt Olson,724,0.272,0.366,0.484,0.85,29,91,176,2025,matt olson
+641355,Cody Bellinger,656,0.272,0.334,0.48,0.814,29,57,90,2025,cody bellinger
+680757,Steven Kwan,693,0.272,0.33,0.374,0.704,11,55,60,2025,steven kwan
+681624,Andy Pages,624,0.272,0.313,0.461,0.774,27,29,135,2025,andy pages
+694192,Jackson Chourio,589,0.27,0.308,0.463,0.771,21,30,121,2025,jackson chourio
+666158,Gavin Lux,503,0.269,0.35,0.374,0.724,5,56,114,2025,gavin lux
+665487,Fernando Tatis Jr.,691,0.268,0.368,0.446,0.814,25,89,129,2025,fernando tatis jr.
+596019,Francisco Lindor,732,0.267,0.346,0.466,0.812,31,65,131,2025,francisco lindor
+677594,Julio Rodríguez,710,0.267,0.324,0.474,0.798,32,44,152,2025,julio rodríguez
+808982,Jung Hoo Lee,617,0.266,0.327,0.407,0.734,8,47,71,2025,jung hoo lee
+663656,Kyle Tucker,597,0.266,0.377,0.464,0.841,22,87,88,2025,kyle tucker
+593871,Jorge Polanco,524,0.265,0.326,0.495,0.821,26,42,82,2025,jorge polanco
+514888,Jose Altuve,654,0.265,0.329,0.442,0.771,26,55,109,2025,jose altuve
+641487,J.P. Crawford,654,0.265,0.352,0.37,0.722,12,74,122,2025,j.p. crawford
+672820,Lenyn Sosa,544,0.264,0.293,0.434,0.727,22,18,127,2025,lenyn sosa
+670541,Yordan Alvarez,692,0.316,0.432,0.601,1.033,42,109,120,2026,yordan alvarez
+672515,Gabriel Moreno,549,0.311,0.388,0.486,0.874,16,61,80,2026,gabriel moreno
+650333,Luis Arraez,655,0.31,0.345,0.419,0.764,6,34,28,2026,luis arraez
+802415,Chandler Simpson,612,0.306,0.333,0.356,0.689,0,26,48,2026,chandler simpson
+672640,Otto Lopez,687,0.305,0.349,0.437,0.786,11,40,89,2026,otto lopez
+693304,Nick Gonzales,608,0.303,0.367,0.388,0.755,6,43,99,2026,nick gonzales
+681198,TJ Rumfield,631,0.3,0.39,0.453,0.843,16,72,86,2026,tj rumfield
+671739,Michael Harris II,621,0.294,0.321,0.491,0.812,26,23,119,2026,michael harris ii
+650490,Yandy Díaz,686,0.293,0.359,0.446,0.805,22,56,98,2026,yandy díaz
+694192,Jackson Chourio,573,0.291,0.351,0.487,0.838,25,47,134,2026,jackson chourio
+664983,Jake McCarthy,596,0.291,0.334,0.475,0.809,15,30,95,2026,jake mccarthy
+665487,Fernando Tatis Jr.,704,0.289,0.358,0.47,0.828,25,64,130,2026,fernando tatis jr.
+695506,Jac Caglianone,553,0.289,0.34,0.494,0.834,23,33,144,2026,jac caglianone
+518692,Freddie Freeman,657,0.288,0.362,0.43,0.792,16,66,116,2026,freddie freeman
+800050,Chase DeLauter,559,0.287,0.363,0.457,0.82,16,60,82,2026,chase delauter
+678882,Ceddanne Rafaela,576,0.285,0.321,0.444,0.765,16,22,117,2026,ceddanne rafaela
+686948,Drake Baldwin,615,0.284,0.358,0.459,0.817,25,55,132,2026,drake baldwin
+689414,Liam Hicks,554,0.284,0.367,0.434,0.801,18,56,55,2026,liam hicks
+682829,Elly De La Cruz,636,0.283,0.365,0.515,0.88,30,72,175,2026,elly de la cruz
+701807,Carson Benge,654,0.282,0.346,0.43,0.776,20,50,142,2026,carson benge
+807712,Luke Keaschall,620,0.282,0.374,0.407,0.781,10,59,87,2026,luke keaschall
+680757,Steven Kwan,637,0.282,0.382,0.349,0.731,3,85,62,2026,steven kwan
+668227,Randy Arozarena,670,0.281,0.381,0.484,0.865,26,68,145,2026,randy arozarena
+677951,Bobby Witt Jr.,632,0.281,0.359,0.441,0.8,18,67,109,2026,bobby witt jr.
+669364,Xavier Edwards,595,0.28,0.36,0.371,0.731,6,68,83,2026,xavier edwards
+682985,Riley Greene,592,0.28,0.37,0.474,0.844,21,71,157,2026,riley greene
+691718,Pete Crow-Armstrong,726,0.28,0.372,0.57,0.942,45,83,187,2026,pete crow-armstrong
+676475,Alec Burleson,670,0.279,0.343,0.473,0.816,26,55,121,2026,alec burleson
+805808,Kevin McGonigle,707,0.278,0.376,0.43,0.806,18,95,100,2026,kevin mcgonigle
+671277,Luis García Jr.,543,0.277,0.309,0.521,0.83,30,25,97,2026,luis garcía jr.
+803011,Sam Antonacci,557,0.277,0.37,0.396,0.766,8,43,82,2026,sam antonacci
+808982,Jung Hoo Lee,579,0.276,0.32,0.404,0.724,10,29,57,2026,jung hoo lee
+643289,Mauricio Dubón,619,0.276,0.321,0.399,0.72,12,35,73,2026,mauricio dubón
+691406,Junior Caminero,702,0.276,0.36,0.524,0.884,42,79,129,2026,junior caminero
+805367,Chase Meidroth,643,0.276,0.35,0.415,0.765,16,61,141,2026,chase meidroth
+660271,Shohei Ohtani,618,0.275,0.377,0.512,0.889,30,81,152,2026,shohei ohtani
+575929,Willson Contreras,535,0.275,0.386,0.516,0.902,27,59,135,2026,willson contreras
+666018,Jonathan Aranda,668,0.274,0.358,0.434,0.792,22,69,163,2026,jonathan aranda
+681624,Andy Pages,574,0.274,0.343,0.468,0.811,23,49,113,2026,andy pages
+661388,William Contreras,640,0.27,0.341,0.417,0.758,18,61,94,2026,william contreras
+673548,Seiya Suzuki,634,0.27,0.368,0.473,0.841,26,81,155,2026,seiya suzuki
+691023,Jordan Walker,667,0.269,0.327,0.466,0.793,29,50,174,2026,jordan walker
+547180,Bryce Harper,693,0.269,0.38,0.485,0.865,29,107,148,2026,bryce harper
+668930,Brice Turang,680,0.268,0.366,0.45,0.816,21,90,171,2026,brice turang
+624413,Pete Alonso,700,0.267,0.363,0.522,0.885,43,81,169,2026,pete alonso
+641343,Jake Bauers,578,0.266,0.389,0.484,0.873,26,94,156,2026,jake bauers
+695578,James Wood,623,0.265,0.388,0.503,0.891,30,102,179,2026,james wood
+608324,Alex Bregman,702,0.265,0.355,0.464,0.819,28,76,102,2026,alex bregman
+686527,Dominic Canzone,533,0.264,0.336,0.484,0.82,23,48,110,2026,dominic canzone
+641355,Cody Bellinger,562,0.264,0.338,0.429,0.767,17,59,89,2026,cody bellinger
