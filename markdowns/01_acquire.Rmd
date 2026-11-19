@@ -14,15 +14,15 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ## Source 1: ABS Challenge Data (Reading CSV)
 
-What one row is: One row represents a player and their individual success/failure rate with ABS challenges and the stat improvements/declines from won or lost challenges
+What one row is: One row represents a player and their individual success/failure rate with ABS challenges and the stat improvements/declines from won or lost challenges (taken from: https://baseballsavant.mlb.com/leaderboard/abs-challenges?sort=runs_above_average&sortDir=desc&page=0&pageSize=50&search=)
 
 ## Source 2: MLB API Data (API)
 
-What one row is: A player and their stats from the 2024-2026 MLB season
+What one row is: A player and their stats from the 2024-2026 MLB season ("https://statsapi.mlb.com/api/v1/stats")
 
 ## Source 3: Baseball Reference (Web Scraping)
 
-What one row is: A player and their offensive performance stats from 2024-2026.
+What one row is: A player and their offensive performance stats from 2024-2026 (https://www.baseball-reference.com/leagues/majors/).
 
 
 # Getting Baseball Reference Data
@@ -93,7 +93,9 @@ get_hitting = function(season) {
   hitting_data = api_data$stats$splits[[1]]
 
   hitting_data$year = season
-
+  
+  Sys.sleep(5)
+  
   return(hitting_data)
 }
 

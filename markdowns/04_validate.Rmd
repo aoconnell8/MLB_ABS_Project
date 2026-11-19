@@ -34,6 +34,14 @@ clean_data = readr::read_csv(
 )
 ```
 
+```{r}
+clean_data <- clean_data |>
+  dplyr::group_by(player_key, year) |>
+  dplyr::slice(1) |>
+  dplyr::ungroup()
+```
+
+
 ```{r check for duplicate records}
 # Check for duplicate column names
 anyDuplicated(names(clean_data))
