@@ -72,8 +72,13 @@ mlb_stats = purrr::map_df(seasons, get_mlb_stats)
 head(mlb_stats)
 ```
 
+# ABS Data
+```{r}
+abs_raw = readr::read_csv("../data/abs-challenges-2026-batter.csv")
+```
 
 
+# MLB stats API
 ```{r season data api function and raw data}
 get_hitting = function(season) {
 
@@ -84,7 +89,9 @@ get_hitting = function(season) {
       group = "hitting",
       season = season,
       sportIds = 1,
-      gameType = "R"
+      gameType = "R",
+      playerPool = "All",
+      limit = 1000
     ) |>
     httr2::req_perform() |>
     httr2::resp_body_string() |>
@@ -143,7 +150,7 @@ head(people_data)
 names(people_data)
 ```
 
-```{r writing raw data to file and rds}
+```{r writing raw data to file}
 readr::write_csv(
   mlb_stats,
   "../data/raw/baseball_reference_raw.csv"
